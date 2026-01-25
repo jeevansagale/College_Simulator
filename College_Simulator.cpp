@@ -9,6 +9,8 @@
 #include "Common.h"
 #include "UI.h"
 #include "Assets.h"
+#include "MainGame.h"
+#include "Player.h"
 
 void Credits_Function();
 void Return();
@@ -35,14 +37,21 @@ int main() {
 			MakeButton({ 400 , 400 , 250 , 50 }, YELLOW, GRAY, GOLD, "CREDITS", CREDITS, Pixel, 32);
 			MakeButton({ 400 , 500 , 250 , 50 }, GRAY, LIGHTGRAY, DARKGRAY, "SETTING", SETTING, Pixel, 32);
 			MakeButton({ 400 , 600 , 250 , 50 }, RED, GRAY, DARKGRAY, "EXIT", EXIT, Pixel, 32);
+
+			Return();
 		}
 
 		else if (CurrentState == START) {
+			ChooseGender(LIGHTGRAY, LIGHTGRAY, DARKGRAY, DARKGRAY, LIME, LIME);
+			Bar_Make();
+			player.Attendance_Function();
+			player.Stress_Function();
 			Return();
 		}
 
 		else if (CurrentState == CREDITS) {
 			Credits_Function();
+			Return();
 		}
 
 		else if (CurrentState == EXIT) {
@@ -81,5 +90,8 @@ void Return() {
 		CurrentState = MENU;
 		title.DirX = -500;
 		title.Alpha = 0;
+		clicked = true;
+		clicked1 = true;
+		clicked2 = true;
 	}
 }
