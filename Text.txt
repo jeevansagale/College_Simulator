@@ -1,0 +1,63 @@
+﻿CollegeSim /
+│
+├── src /
+│   ├── main.cpp
+│   │
+│   ├── core /
+│   │   ├── game.h
+│   │   ├── game.cpp
+│   │   ├── gamestate.h
+│   │
+│   ├── player /
+│   │   ├── player.h
+│   │   ├── player.cpp
+│   │
+│   ├── systems /
+│   │   ├── timer.h
+│   │   ├── timer.cpp
+│   │
+│   │   ├── attendance.h
+│   │   ├── attendance.cpp
+│   │
+│   │   ├── stress.h
+│   │   ├── stress.cpp
+│   │
+│   │   ├── energy.h
+│   │   ├── energy.cpp
+│   │
+│   │   ├── poop.h          // yes. keep it.
+│   │   ├── poop.cpp
+│   │
+│   │   ├── love.h
+│   │   ├── love.cpp
+│   │
+│   ├── world /
+│   │   ├── map.h
+│   │   ├── map.cpp
+│   │
+│   │   ├── npc.h
+│   │   ├── npc.cpp
+│   │
+│   │   ├── faculty.h
+│   │   ├── faculty.cpp
+│
+│   ├── ui /
+│   │   ├── hud.h
+│   │   ├── hud.cpp
+│   │
+│   │   ├── menu.h
+│   │   ├── menu.cpp
+│
+│   └── utils /
+│       ├── config.h
+│       ├── math.h
+│
+├── assets /
+│   ├── textures /
+│   ├── sounds /
+│   ├── fonts /
+│
+├── build /
+│
+├── README.md
+└── Makefile / CMakeLists.txt
