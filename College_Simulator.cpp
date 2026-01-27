@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 #include <raylib.h>
 #include <raymath.h>
 
@@ -33,7 +34,7 @@ int main() {
 			DrawTextureEx(Background_Menu, { 0,0 }, 0, 0.286, WHITE);
 			MakeTitle("College Simulator");
 
-			MakeButton({ 400 , 300 , 250 , 50 }, GREEN, GRAY, RED, "START", START , Pixel , 32);
+			MakeButton({ 400 , 300 , 250 , 50 }, GREEN, GRAY, RED, "START", CHOOSENAME , Pixel , 32);
 			MakeButton({ 400 , 400 , 250 , 50 }, YELLOW, GRAY, GOLD, "CREDITS", CREDITS, Pixel, 32);
 			MakeButton({ 400 , 500 , 250 , 50 }, GRAY, LIGHTGRAY, DARKGRAY, "SETTING", SETTING, Pixel, 32);
 			MakeButton({ 400 , 600 , 250 , 50 }, RED, GRAY, DARKGRAY, "EXIT", EXIT, Pixel, 32);
@@ -41,12 +42,23 @@ int main() {
 			Return();
 		}
 
-		else if (CurrentState == START) {
-			ChooseGender(LIGHTGRAY, LIGHTGRAY, DARKGRAY, DARKGRAY, LIME, LIME);
-			Bar_Make();
-			player.Attendance_Function();
-			player.Stress_Function();
+		else if (CurrentState == CHOOSENAME) {
+			ChooseName();
 			Return();
+		}
+
+		else if (CurrentState == CHOOSEGENDER) {
+			ChooseGender();
+			Return();
+		}
+
+		else if (CurrentState == CHOOSELANGUAGE) {
+			ChooseLanguage();
+			Return();
+		}
+
+		else if (CurrentState == START) {
+			EyesOpen();
 		}
 
 		else if (CurrentState == CREDITS) {
@@ -88,10 +100,13 @@ void Credits_Function() {
 void Return() {
 	if (IsKeyPressed(KEY_ESCAPE)) {
 		CurrentState = MENU;
+		
 		title.DirX = -500;
 		title.Alpha = 0;
-		clicked = true;
-		clicked1 = true;
-		clicked2 = true;
+		Clicked2 = true;
+		for (int i = 0; i < 5; i++) {
+			Clicked[i] = true;
+			Clicked1[i] = true;
+		}
 	}
 }

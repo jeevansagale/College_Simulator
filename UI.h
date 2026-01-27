@@ -5,6 +5,13 @@
 #include <raylib.h>
 #include <raymath.h>
 
+struct Title {
+	float Alpha;
+	float DirX;
+	float DirY;
+};
+extern Title title;
+
 void MakeButton(Rectangle Btn,
 	Color Normal,
 	Color Touch,

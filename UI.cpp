@@ -1,5 +1,11 @@
 #include "UI.h"
 
+Title title = {
+	0 ,
+	-500 ,
+	100
+};
+
 void MakeButton(Rectangle Btn,
 	Color Normal,
 	Color Touch,

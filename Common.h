@@ -13,15 +13,11 @@ enum State {
 	CREDITS , 
 	SETTING ,
 	EXIT ,
-	WAKE_UP  
+	CHOOSENAME , 
+	CHOOSEGENDER , 
+	CHOOSELANGUAGE , 
+	HOSTELROOM 
 };
 extern State CurrentState;
 
 extern Vector2 MousePosition;
-
-struct Title {
-	float Alpha;
-	float DirX;
-	float DirY;
-};
-extern Title title;

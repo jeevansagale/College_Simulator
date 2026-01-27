@@ -2,9 +2,10 @@
 
 Player player;
 BarMake barmake[50];
-bool clicked = true;
-bool clicked1 = true;
-bool clicked2 = true;
+
+bool Clicked2 = true;
+bool Clicked1[5] = { true , true , true , true , true };
+bool Clicked[5] = { true , true , true , true , true };
 
 Player::Player(){
 	Max_Attendance = 100;               //Max attendance
@@ -16,6 +17,7 @@ Player::Player(){
 
 	Gender = "";                        //Default Gender
 	Name = "";                          //Default Name
+	Subject = "";                       //Default Sibject
 
     Attendance = 100.0f;                //initial 100 attendance
 	Stress = 0.0f;                      //Initial 0 stress
@@ -24,6 +26,7 @@ Player::Player(){
 	LoveMeter = 0.0f;                   //Initial 0 love progress
 	SleepMeter = 0.0f;                  //Initial 0 i.e. No sleep needed
 };
+
 
 void MakeBar(Vector2 Position, int Index, float Percentage, Color Base, Color BarColor, Color Border , const char *BarName) {
 	auto bar = &barmake[Index];
@@ -46,6 +49,7 @@ void MakeBar(Vector2 Position, int Index, float Percentage, Color Base, Color Ba
 	DrawTextEx(Pixel, BarName, Location, 12, 2, Fade(BLACK , 0.6f));
 }
 
+
 void Bar_Make() {
 	MakeBar({ 10 , 10 }, 0, (player.Attendance / player.Max_Attendance), LIGHTGRAY, GOLD, YELLOW , "Attendace");
 	MakeBar({ 10 , 50 }, 1, (player.Stress / player.Max_Stress), LIGHTGRAY, { 0, 0, 139, 250 }, Fade({ 0, 0, 139, 240 }, 0.2f) , "Stress");
@@ -53,30 +57,6 @@ void Bar_Make() {
 	MakeBar({ 780 , 10 }, 3, (player.ToiletMeter / player.Max_ToiletMeter), LIGHTGRAY, BROWN, Fade(DARKBROWN, 0.2f) , "Toilet");
 	MakeBar({ 780 , 50 }, 4, (player.LoveMeter / player.Max_LoveMeter), LIGHTGRAY, PINK, Fade(RED, 0.2f) , "Love");
 	MakeBar({ 780 , 100 }, 5, (player.SleepMeter / player.Max_SleepMeter), LIGHTGRAY, SKYBLUE, Fade(DARKBLUE, 0.2f) , "Sleep");
-}
-
-void Player::Attendance_Function() {
-
-}
-
-void Player::Stress_Function() {
-	
-}
-
-void Player::Reputation_Function() {
-
-}
-
-void Player::Toilet_Function() {
-
-}
-
-void Player::Love_Function() {
-
-}
-
-void Player::Sleep_Function() {
-
 }
 
 
@@ -95,43 +75,91 @@ void ChooseName() {
 
 	DrawTextEx(Thick_Pixel, "Enter Name", { 200, 300 }, 32, 2 , BLACK);
 	DrawTextEx(Thick_Pixel, player.Name.c_str(), { 300 , 350 }, 32, 2 , BLACK);
+
+	if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_KP_ENTER)) { Clicked2 = false; }
+	if (!Clicked2) { MakeButton({ 200 , 200 , 200 , 50 }, YELLOW, GRAY, GOLD, "Confirm", CHOOSEGENDER, Pixel, 32); }
 }
 
-void ChooseGender(Color BoxColor1, Color BoxColor2, Color BoxColorClick1 , Color BoxColorClick2 , Color Click1 , Color Click2) {
-	char Male[10] = "Boy";
-	char FeMale[10] = "Girl";
 
-	Rectangle Box1 = { 300 , 400 , 250 , 50 };
-	Rectangle Box2 = { 600 , 400 , 250 , 50 };
+void ChooseGenderBox(Rectangle Box, Color BoxColor, Color BoxHover, Color BoxClick, int Index, const char* Gender) {
+	bool Check = CheckCollisionPointRec(MousePosition, Box);
 
-	bool Check1 = CheckCollisionPointRec(MousePosition, Box1);
-	bool Check2 = CheckCollisionPointRec(MousePosition, Box2);
+	Vector2 TxtSize = MeasureTextEx(Thick_Pixel, Gender, 32, 2);
+	Vector2 Location = { Box.x + (Box.width - TxtSize.x) / 2 , Box.y + (Box.height - TxtSize.y) / 2 };
 
-	Vector2 TxtSize1 = MeasureTextEx(Thick_Pixel, Male, 32, 2);
-	Vector2 TxtSize2 = MeasureTextEx(Thick_Pixel, FeMale, 32, 2);
+	if (Check) { BoxColor = BoxHover; }
 
-	Vector2 Location1 = { Box1.x + (Box1.width - TxtSize1.x) / 2 , Box1.y + (Box1.height - TxtSize1.y) / 2 };
-	Vector2 Location2 = { Box2.x + (Box2.width - TxtSize2.x) / 2 , Box2.y + (Box2.height - TxtSize2.y) / 2 };
+	if (Check && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) { Clicked1[Index] = !Clicked1[Index]; player.Gender = Gender; Clicked1[0] = false; }
 
-	if (Check1) { BoxColor1 = BoxColorClick1; }
-	if (Check2) { BoxColor2 = BoxColorClick2; }
+	if (!Clicked1[Index]) { BoxColor = BoxClick; }
 
-	if (Check1 && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) { clicked1 = !clicked1; player.Gender = Male; clicked = false; }
-	if (Check2 && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) { clicked2 = !clicked2; player.Gender = Male; clicked = false; }
+	if (!Clicked1[Index]) { MakeButton({200 , 200 , 200 , 50}, YELLOW, GRAY, GOLD, "Confirm", CHOOSELANGUAGE, Pixel, 32); }
 
-	if(!clicked1){ BoxColor1 = Click1; }
-	if(!clicked2){ BoxColor2 = Click2; }
+	DrawRectangleRec(Box, BoxColor);
+	DrawTextEx(Thick_Pixel, Gender, Location, 32, 2, BLACK);
 
-	if(!clicked){ MakeButton({ 200 , 200 , 200 , 50 }, YELLOW, GRAY, GOLD, "Confirm", MENU, Pixel, 32); }
-
-
-	DrawRectangleRec(Box1, BoxColor1);
-	DrawRectangleRec(Box2, BoxColor2);
-
-	DrawTextEx(Pixel, Male, Location1, 32, 2, BLACK);
-	DrawTextEx(Pixel, FeMale, Location2, 32, 2, BLACK);
+	if (Index == 1 && !Clicked1[Index]) { Clicked1[2] = true; }
+	if (Index == 2 && !Clicked1[Index]) { Clicked1[1] = true; }
 }
+
+
+void ChooseGender() {
+	ChooseGenderBox({ 500 , 350 , 200 , 50 }, GRAY, DARKGRAY, GREEN, 1, "MALE");
+	ChooseGenderBox({ 300 , 350 , 200 , 50 }, GRAY, DARKGRAY, GREEN, 2, "FEMALE");
+}
+
+
+void ChooseLanguageBox(Rectangle Box, Color BoxColor, Color BoxHover, Color BoxClick , int Index , const char *Language) {
+	bool Check = CheckCollisionPointRec(MousePosition, Box);
+	Vector2 TxtSize = MeasureTextEx(Pixel, Language, 32, 2);
+	Vector2 Location = { Box.x + (Box.width - TxtSize.x) / 2 , Box.y + (Box.height - TxtSize.y) / 2 };
+
+	if (Check) { BoxColor = BoxHover; }
+
+	if (Check && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) { Clicked[Index] = !Clicked[Index]; player.Subject = Language; Clicked[0] = false; }
+
+	if (!Clicked[Index]) { BoxColor = BoxClick; }
+
+	if (!Clicked[0]) { MakeButton({ 350 , 700 , 200 , 50 }, YELLOW, GRAY, GOLD, "Confirm", START, Pixel, 32); }
+
+	DrawRectangleRec(Box, BoxColor);
+	DrawTextEx(Pixel, Language, Location, 32, 2 , BLACK);
+
+	if (Index == 1 && !Clicked[Index]) { Clicked[2] = Clicked[3] = Clicked[4] = true; }
+	if (Index == 2 && !Clicked[Index]) { Clicked[1] = Clicked[3] = Clicked[4] = true; }
+	if (Index == 3 && !Clicked[Index]) { Clicked[1] = Clicked[2] = Clicked[4] = true; }
+	if (Index == 4 && !Clicked[Index]) { Clicked[1] = Clicked[2] = Clicked[3] = true; }
+}
+
 
 void ChooseLanguage() {
+	ChooseLanguageBox({ 200 , 200 , 200 , 50 }, DARKGRAY, LIGHTGRAY, RED, 1, "Enlish");
+	ChooseLanguageBox({ 200 , 300 , 200 , 50 }, DARKGRAY, LIGHTGRAY, GREEN, 2, "German");
+	ChooseLanguageBox({ 780 , 200 , 200 , 50 }, DARKGRAY, LIGHTGRAY, BLUE, 3, "BST");
+	ChooseLanguageBox({ 780 , 300 , 200 , 50 }, DARKGRAY, LIGHTGRAY, PINK, 4, "Japanese");
+}
+
+
+void Player::Attendance_Function() {
+
+}
+
+void Player::Stress_Function() {
+
+}
+
+void Player::Reputation_Function() {
+
+}
+
+void Player::Toilet_Function() {
+
+}
+
+void Player::Love_Function() {
+
+}
+
+void Player::Sleep_Function() {
 
 }

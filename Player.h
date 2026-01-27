@@ -8,9 +8,9 @@
 #include "Assets.h"
 #include "Common.h"
 
-extern bool clicked;
-extern bool clicked1;
-extern bool clicked2;
+extern bool Clicked2;
+extern bool Clicked1[5];
+extern bool Clicked[5];
 
 class Player
 {
@@ -24,6 +24,7 @@ public:
 
 	std::string Gender;
 	std::string Name;
+	std::string Subject;
 	
 	float Attendance;
 	float Stress;
@@ -44,8 +45,13 @@ public:
 extern Player player;
 
 void ChooseName();
-void ChooseGender(Color BoxColor1, Color BoxColor2, Color BoxColorClick1, Color BoxColorClick2, Color Click1, Color Click2);
+
+void ChooseGenderBox(Rectangle Box, Color BoxColor, Color BoxHover, Color BoxClick, int Index, const char* Gender);
+void ChooseGender();
+
+void ChooseLanguageBox(Rectangle Box , Color BoxColor , Color BoxHover , Color BoxClick , int Index, const char* Language);
 void ChooseLanguage();
+
 void MakeBar(Vector2 Position, int Index , float Percantage , Color Base , Color BarColor , Color Border, const char* BarName);
 void Bar_Make();
 
