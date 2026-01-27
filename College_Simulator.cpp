@@ -53,12 +53,13 @@ int main() {
 		}
 
 		else if (CurrentState == CHOOSELANGUAGE) {
+			
 			ChooseLanguage();
 			Return();
 		}
 
 		else if (CurrentState == START) {
-			EyesOpen();
+
 		}
 
 		else if (CurrentState == CREDITS) {
@@ -69,6 +70,8 @@ int main() {
 		else if (CurrentState == EXIT) {
 			break;
 		}
+
+		BlackScreen_Update(BLACK);
 
 		EndDrawing();
 	}

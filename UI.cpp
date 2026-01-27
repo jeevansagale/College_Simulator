@@ -6,6 +6,11 @@ Title title = {
 	100
 };
 
+BlackScreen blackscreen = {
+	0 ,
+	0
+};
+
 void MakeButton(Rectangle Btn,
 	Color Normal,
 	Color Touch,
@@ -25,7 +30,7 @@ void MakeButton(Rectangle Btn,
 
 	if (Check) { Normal = Touch; }
 	if (Check && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) { Normal = Click; }
-	if (Check && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) { CurrentState = NextState; }
+	if (Check && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) { StartBlackScreen(NextState); }
 
 	if (Check) {
 		Btn.width += dt * 100;
@@ -56,4 +61,35 @@ void MakeTitle(const char* Title) {
 	if (title.Alpha >= 1) { title.Alpha = 1; }
 
 	DrawTextEx(Thick_Pixel, Title, Location, 64, 2, Fade(BLACK , title.Alpha));
+}
+
+
+void StartBlackScreen(State Next) {
+	auto& BS = blackscreen;
+	if (BS.Dir != 0) return;
+	PendingState = Next;
+	BS.Dir = 1;
+}
+
+
+void BlackScreen_Update(Color color) {
+	auto& BS = blackscreen;
+	float dt = GetFrameTime();
+
+	if (BS.Dir != 0) {
+		BS.Alpha += dt * BS.Dir * 1.5f;
+
+		if (BS.Alpha >= 1.0f) {
+			BS.Alpha = 1;
+			CurrentState = PendingState;
+			BS.Dir = -1;
+		}
+
+		if (BS.Alpha <= 0) {
+			BS.Alpha = 0;
+			BS.Dir = 0;
+		}
+		
+		DrawRectangle(0, 0, Screen_Width, Screen_Height, Fade(color, BS.Alpha));
+	}
 }

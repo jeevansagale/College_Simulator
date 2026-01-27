@@ -4,17 +4,9 @@
 #include <raymath.h>
 #include <vector>
 
-struct Eyes {
-	float UpperEye;
-	float LowerEye;
-	float Alpha;
-	int dirUP;
-	int dirDOWN;
-	float Size;
-};
-extern Eyes eyes;
+#include "Player.h"
+#include "Common.h"
+#include "UI.h"
 
-
-void EyesOpen();
 void HostelRoom();
 

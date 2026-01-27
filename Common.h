@@ -19,5 +19,6 @@ enum State {
 	HOSTELROOM 
 };
 extern State CurrentState;
+extern State PendingState;
 
 extern Vector2 MousePosition;

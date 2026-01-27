@@ -12,6 +12,12 @@ struct Title {
 };
 extern Title title;
 
+struct BlackScreen {
+	float Alpha;
+	int Dir;
+};
+extern BlackScreen blackscreen;
+
 void MakeButton(Rectangle Btn,
 	Color Normal,
 	Color Touch,
@@ -23,3 +29,6 @@ void MakeButton(Rectangle Btn,
 
 
 void MakeTitle(const char* Title);
+
+void StartBlackScreen(State Next);
+void BlackScreen_Update(Color color);
