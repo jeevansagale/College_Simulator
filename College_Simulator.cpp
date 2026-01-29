@@ -43,23 +43,26 @@ int main() {
 		}
 
 		else if (CurrentState == CHOOSENAME) {
+			DrawTextureEx(Background_Menu, { 0,0 }, 0, 0.286, WHITE);
 			ChooseName();
 			Return();
 		}
 
 		else if (CurrentState == CHOOSEGENDER) {
+			DrawTextureEx(Background_Menu, { 0,0 }, 0, 0.286, WHITE);
 			ChooseGender();
 			Return();
 		}
 
 		else if (CurrentState == CHOOSELANGUAGE) {
-			
+			DrawTextureEx(Background_Menu, { 0,0 }, 0, 0.286, WHITE);
 			ChooseLanguage();
 			Return();
 		}
 
 		else if (CurrentState == START) {
-
+			Bar_Make();
+			room.MakeRoom({500 , 500} , GRAY , BLACK , RED , "BATHROOM" , MENU);
 		}
 
 		else if (CurrentState == CREDITS) {

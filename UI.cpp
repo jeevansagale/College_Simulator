@@ -23,10 +23,7 @@ void MakeButton(Rectangle Btn,
 	bool Check = CheckCollisionPointRec(MousePosition, Btn);
 	float dt = GetFrameTime();
 
-	Vector2 TxtSize = MeasureTextEx(FontFamily , BtnName, Size , 2);
-	Vector2 Location = { Btn.x + (Btn.width - TxtSize.x) / 2 , 
-		                 Btn.y + (Btn.height - TxtSize.y) / 2 };
-	Vector2 Original = { Btn.width , Btn.height };
+	Rectangle Original = Btn;
 
 	if (Check) { Normal = Touch; }
 	if (Check && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) { Normal = Click; }
@@ -35,16 +32,25 @@ void MakeButton(Rectangle Btn,
 	if (Check) {
 		Btn.width += dt * 100;
 		Btn.height += dt * 100;
+		Btn.x -= dt * 50;
+		Btn.y -= dt * 50;
 	}
 	else {
 		Btn.width -= dt * 100;
 		Btn.height -= dt * 100;
+		Btn.x += dt * 50;
+		Btn.y += dt * 50;
 	}
 
-	Btn.width = Clamp(Btn.width, Original.x, Original.x + 40);
-	Btn.height = Clamp(Btn.height, Original.y, Original.y + 20);
+	Btn.width = Clamp(Btn.width, Original.width, Original.width + 40);
+	Btn.height = Clamp(Btn.height, Original.height, Original.height + 20);
+
+	Vector2 TxtSize = MeasureTextEx(FontFamily, BtnName, Size, 2);
+	Vector2 Location = { Btn.x + (Btn.width - TxtSize.x) / 2 ,
+						 Btn.y + (Btn.height - TxtSize.y) / 2 };
 
 	DrawRectangleRec(Btn, Normal);
+	DrawRectangleLinesEx(Btn, 3.0f, BLACK);
 	DrawTextEx(FontFamily, BtnName , Location, Size, 2, BLACK);
 }
 
@@ -58,7 +64,7 @@ void MakeTitle(const char* Title) {
 	Vector2 Location = { title.DirX , title.DirY };
 
 	if (title.DirX >= 100) { title.DirX = 100; title.DirX = Clamp(title.DirX, -600, 100); }
-	if (title.Alpha >= 1) { title.Alpha = 1; }
+	if (title.Alpha >= 1) { title.Alpha = 1; title.Alpha = Clamp(title.Alpha, 0, 1); }
 
 	DrawTextEx(Thick_Pixel, Title, Location, 64, 2, Fade(BLACK , title.Alpha));
 }
@@ -92,4 +98,4 @@ void BlackScreen_Update(Color color) {
 		
 		DrawRectangle(0, 0, Screen_Width, Screen_Height, Fade(color, BS.Alpha));
 	}
-}
+} 

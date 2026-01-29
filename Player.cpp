@@ -51,12 +51,12 @@ void MakeBar(Vector2 Position, int Index, float Percentage, Color Base, Color Ba
 
 
 void Bar_Make() {
-	MakeBar({ 10 , 10 }, 0, (player.Attendance / player.Max_Attendance), LIGHTGRAY, GOLD, YELLOW , "Attendace");
-	MakeBar({ 10 , 50 }, 1, (player.Stress / player.Max_Stress), LIGHTGRAY, { 0, 0, 139, 250 }, Fade({ 0, 0, 139, 240 }, 0.2f) , "Stress");
-	MakeBar({ 10 , 100 }, 2, (player.Reputation / player.Max_Reputation), LIGHTGRAY, LIME, Fade(GREEN, 0.2f) , "Reputation");
-	MakeBar({ 780 , 10 }, 3, (player.ToiletMeter / player.Max_ToiletMeter), LIGHTGRAY, BROWN, Fade(DARKBROWN, 0.2f) , "Toilet");
-	MakeBar({ 780 , 50 }, 4, (player.LoveMeter / player.Max_LoveMeter), LIGHTGRAY, PINK, Fade(RED, 0.2f) , "Love");
-	MakeBar({ 780 , 100 }, 5, (player.SleepMeter / player.Max_SleepMeter), LIGHTGRAY, SKYBLUE, Fade(DARKBLUE, 0.2f) , "Sleep");
+	MakeBar({ 10 , 10 }, 0, (player.Attendance / player.Max_Attendance), LIGHTGRAY, GOLD, BLACK , "Attendace");
+	MakeBar({ 10 , 50 }, 1, (player.Stress / player.Max_Stress), LIGHTGRAY, { 0, 0, 139, 250 }, BLACK, "Stress");
+	MakeBar({ 10 , 100 }, 2, (player.Reputation / player.Max_Reputation), LIGHTGRAY, LIME, BLACK, "Reputation");
+	MakeBar({ 780 , 10 }, 3, (player.ToiletMeter / player.Max_ToiletMeter), LIGHTGRAY, BROWN, BLACK, "Toilet");
+	MakeBar({ 780 , 50 }, 4, (player.LoveMeter / player.Max_LoveMeter), LIGHTGRAY, PINK, BLACK, "Love");
+	MakeBar({ 780 , 100 }, 5, (player.SleepMeter / player.Max_SleepMeter), LIGHTGRAY, SKYBLUE, BLACK, "Sleep");
 }
 
 
@@ -77,7 +77,7 @@ void ChooseName() {
 	DrawTextEx(Thick_Pixel, player.Name.c_str(), { 300 , 350 }, 32, 2 , BLACK);
 
 	if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_KP_ENTER)) { Clicked2 = false; }
-	if (!Clicked2) { MakeButton({ 200 , 200 , 200 , 50 }, YELLOW, GRAY, GOLD, "Confirm", CHOOSEGENDER, Pixel, 32); }
+	if (!Clicked2) { MakeButton({ 450 , 500 , 200 , 50 }, YELLOW, GRAY, GOLD, "Confirm", CHOOSEGENDER, Pixel, 32); }
 }
 
 
@@ -93,7 +93,7 @@ void ChooseGenderBox(Rectangle Box, Color BoxColor, Color BoxHover, Color BoxCli
 
 	if (!Clicked1[Index]) { BoxColor = BoxClick; }
 
-	if (!Clicked1[Index]) { MakeButton({200 , 200 , 200 , 50}, YELLOW, GRAY, GOLD, "Confirm", CHOOSELANGUAGE, Pixel, 32); }
+	if (!Clicked1[Index]) { MakeButton({400 , 500 , 200 , 50}, YELLOW, GRAY, GOLD, "Confirm", CHOOSELANGUAGE, Pixel, 32); }
 
 	DrawRectangleRec(Box, BoxColor);
 	DrawTextEx(Thick_Pixel, Gender, Location, 32, 2, BLACK);
@@ -104,8 +104,8 @@ void ChooseGenderBox(Rectangle Box, Color BoxColor, Color BoxHover, Color BoxCli
 
 
 void ChooseGender() {
-	ChooseGenderBox({ 500 , 350 , 200 , 50 }, GRAY, DARKGRAY, GREEN, 1, "MALE");
-	ChooseGenderBox({ 300 , 350 , 200 , 50 }, GRAY, DARKGRAY, GREEN, 2, "FEMALE");
+	ChooseGenderBox({ 600 , 350 , 200 , 50 }, GRAY, DARKGRAY, GREEN, 1, "MALE");
+	ChooseGenderBox({ 200 , 350 , 200 , 50 }, GRAY, DARKGRAY, GREEN, 2, "FEMALE");
 }
 
 
@@ -120,7 +120,7 @@ void ChooseLanguageBox(Rectangle Box, Color BoxColor, Color BoxHover, Color BoxC
 
 	if (!Clicked[Index]) { BoxColor = BoxClick; }
 
-	if (!Clicked[0]) { MakeButton({ 350 , 700 , 200 , 50 }, YELLOW, GRAY, GOLD, "Confirm", START, Pixel, 32); }
+	if (!Clicked[0]) { MakeButton({ 450 , 700 , 200 , 50 }, YELLOW, GRAY, GOLD, "Confirm", START, Pixel, 32); }
 
 	DrawRectangleRec(Box, BoxColor);
 	DrawTextEx(Pixel, Language, Location, 32, 2 , BLACK);
