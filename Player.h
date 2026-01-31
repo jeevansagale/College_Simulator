@@ -1,21 +1,30 @@
 #pragma once
-
 #define MAX_CHARACTER 20
 
+// Player.h
+// ----------
+// Used for the main characters skills
+
+// ---------- LIBRARY USED ----------
 #include <string>
 #include <raylib.h>
 #include "UI.h"
 #include "Assets.h"
 #include "Common.h"
+#include "MainGame.h"
 
-extern bool Clicked2;
-extern bool Clicked1[5];
-extern bool Clicked[5];
 
+// ---------- CHECK IF ____ HAS BEEN CHOOSEN ----------
+extern bool Clicked2;       // Name 
+extern bool Clicked1[5];    // Subject[Language] 
+extern bool Clicked[5];     // Gender
+
+
+// -------------------- PLAYER CLASS --------------------
 class Player
 {
 public:
-	float Max_Attendance;
+	float Max_Attendance;     
 	float Max_Stress;
 	float Max_Reputation;
 	float Max_ToiletMeter;
@@ -35,6 +44,7 @@ public:
 
 	Player();
 
+	void PlayerPhone();
 	void Attendance_Function();
 	void Stress_Function();
 	void Reputation_Function();
@@ -44,16 +54,20 @@ public:
 };
 extern Player player;
 
+
 void ChooseName();
 
 void ChooseGenderBox(Rectangle Box, Color BoxColor, Color BoxHover, Color BoxClick, int Index, const char* Gender);
 void ChooseGender();
 
+
 void ChooseLanguageBox(Rectangle Box , Color BoxColor , Color BoxHover , Color BoxClick , int Index, const char* Language);
 void ChooseLanguage();
 
+
 void MakeBar(Vector2 Position, int Index , float Percantage , Color Base , Color BarColor , Color Border, const char* BarName);
 void Bar_Make();
+
 
 struct BarMake {
 	float BarH;

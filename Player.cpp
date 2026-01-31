@@ -3,10 +3,14 @@
 Player player;
 BarMake barmake[50];
 
+
+// ---------- DECLARING CHECKS ----------
 bool Clicked2 = true;
 bool Clicked1[5] = { true , true , true , true , true };
 bool Clicked[5] = { true , true , true , true , true };
 
+
+// -------------------- PLAYER CLASS DECLARATION --------------------
 Player::Player(){
 	Max_Attendance = 100;               //Max attendance
     Max_Stress = 100;                   //Max Stress
@@ -15,9 +19,9 @@ Player::Player(){
 	Max_LoveMeter = 100;                //Max Lover progress
 	Max_SleepMeter = 100;               //Max Sleep progress [Need to sleep]
 
-	Gender = "";                        //Default Gender
-	Name = "";                          //Default Name
-	Subject = "";                       //Default Sibject
+	Gender = "MALE";                    //Default Gender
+	Name = "PRIMO";                     //Default Name
+	Subject = "ENGLISH";                //Default Sibject
 
     Attendance = 100.0f;                //initial 100 attendance
 	Stress = 0.0f;                      //Initial 0 stress
@@ -28,28 +32,32 @@ Player::Player(){
 };
 
 
+// ---------- MAKE BAR's FOR PLAYER ----------
 void MakeBar(Vector2 Position, int Index, float Percentage, Color Base, Color BarColor, Color Border , const char *BarName) {
 	auto bar = &barmake[Index];
-	bar[Index].BarH = 30;
-	bar[Index].BarW = 200;
-	bar[Index].BarNewW = Percentage * bar[Index].BarW;
+	bar[Index].BarH = 30;      // Bar height
+	bar[Index].BarW = 200;     // Bar width
+	bar[Index].BarNewW = Percentage * bar[Index].BarW;    // Calculating filling [VALUE] of Baf
 
+	// ---------- CALCULATING CENTER OF RECTANGLE ----------
 	Vector2 TxtSize = MeasureTextEx(Pixel, BarName, 12, 2);
 	Vector2 Location = { Position.x + (bar[Index].BarW - TxtSize.x) / 2 , Position.y + (bar[Index].BarH - TxtSize.y) / 2 };
 
-	DrawRectangle(Position.x, Position.y, bar[Index].BarW, bar[Index].BarH, Base);
-	DrawRectangle(Position.x, Position.y, bar[Index].BarNewW, bar[Index].BarH, BarColor);
 
-	//Glowing border
+	// ---------- Glowing border [KINDA] ----------
 	for (int i = 2; i > 0; i--) {
 		DrawRectangleLinesEx({ Position.x, Position.y, bar[Index].BarW, bar[Index].BarH }, 2.0 * i , Fade(Border, 0.05f * i));
 	}
-	DrawRectangleLinesEx({ Position.x, Position.y, bar[Index].BarW, bar[Index].BarH }, 2.0f, Border);
 
-	DrawTextEx(Pixel, BarName, Location, 12, 2, Fade(BLACK , 0.6f));
+	// ---------- Drawing the button ----------
+	DrawRectangle(Position.x, Position.y, bar[Index].BarW, bar[Index].BarH, Base);   // Base Bar
+ 	DrawRectangle(Position.x, Position.y, bar[Index].BarNewW, bar[Index].BarH, BarColor);   // Value inside the Bar
+	DrawRectangleLinesEx({ Position.x, Position.y, bar[Index].BarW, bar[Index].BarH }, 2.0f, Border);   // Border of the Bar
+	DrawTextEx(Pixel, BarName, Location, 12, 2, Fade(BLACK , 0.6f));    // Text inside the Bar
 }
 
 
+// -------------------- MAKING BAR IN GAME --------------------
 void Bar_Make() {
 	MakeBar({ 10 , 10 }, 0, (player.Attendance / player.Max_Attendance), LIGHTGRAY, GOLD, BLACK , "Attendace");
 	MakeBar({ 10 , 50 }, 1, (player.Stress / player.Max_Stress), LIGHTGRAY, { 0, 0, 139, 250 }, BLACK, "Stress");
@@ -60,8 +68,9 @@ void Bar_Make() {
 }
 
 
+// -------------------- NAME --------------------
 void ChooseName() {
-	char key = GetCharPressed();
+	char key = GetCharPressed();  
 	while (key > 0) {
 		if ((key >= 32 && key <= 255) && player.Name.length() <= MAX_CHARACTER) {
 			player.Name.push_back((char)key);
@@ -81,6 +90,7 @@ void ChooseName() {
 }
 
 
+// -------------------- GENDER BOX's --------------------
 void ChooseGenderBox(Rectangle Box, Color BoxColor, Color BoxHover, Color BoxClick, int Index, const char* Gender) {
 	bool Check = CheckCollisionPointRec(MousePosition, Box);
 
@@ -103,12 +113,14 @@ void ChooseGenderBox(Rectangle Box, Color BoxColor, Color BoxHover, Color BoxCli
 }
 
 
+// -------------------- DRAWING GENDER BOX --------------------
 void ChooseGender() {
 	ChooseGenderBox({ 600 , 350 , 200 , 50 }, GRAY, DARKGRAY, GREEN, 1, "MALE");
 	ChooseGenderBox({ 200 , 350 , 200 , 50 }, GRAY, DARKGRAY, GREEN, 2, "FEMALE");
 }
 
 
+// -------------------- LANGUAGE BOX --------------------
 void ChooseLanguageBox(Rectangle Box, Color BoxColor, Color BoxHover, Color BoxClick , int Index , const char *Language) {
 	bool Check = CheckCollisionPointRec(MousePosition, Box);
 	Vector2 TxtSize = MeasureTextEx(Pixel, Language, 32, 2);
@@ -120,7 +132,7 @@ void ChooseLanguageBox(Rectangle Box, Color BoxColor, Color BoxHover, Color BoxC
 
 	if (!Clicked[Index]) { BoxColor = BoxClick; }
 
-	if (!Clicked[0]) { MakeButton({ 450 , 700 , 200 , 50 }, YELLOW, GRAY, GOLD, "Confirm", START, Pixel, 32); }
+	if (!Clicked[Index]) { MakeButton({ 450 , 700 , 200 , 50 }, YELLOW, GRAY, GOLD, "Confirm", HOSTELROOM, Pixel, 32); }
 
 	DrawRectangleRec(Box, BoxColor);
 	DrawTextEx(Pixel, Language, Location, 32, 2 , BLACK);
@@ -132,6 +144,7 @@ void ChooseLanguageBox(Rectangle Box, Color BoxColor, Color BoxHover, Color BoxC
 }
 
 
+// -------------------- DRAWING LANGUAGE BOX --------------------
 void ChooseLanguage() {
 	ChooseLanguageBox({ 200 , 200 , 200 , 50 }, DARKGRAY, LIGHTGRAY, RED, 1, "Enlish");
 	ChooseLanguageBox({ 200 , 300 , 200 , 50 }, DARKGRAY, LIGHTGRAY, GREEN, 2, "German");
@@ -139,6 +152,15 @@ void ChooseLanguage() {
 	ChooseLanguageBox({ 780 , 300 , 200 , 50 }, DARKGRAY, LIGHTGRAY, PINK, 4, "Japanese");
 }
 
+
+// --------------------------------------------------------------------------------
+// -------------------- PLAYER FUNCTIONS ------------------------------------------
+// --------------------------------------------------------------------------------
+
+
+void Player::PlayerPhone() {
+
+}
 
 void Player::Attendance_Function() {
 

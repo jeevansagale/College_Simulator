@@ -12,8 +12,8 @@
 void HostelRoom();
 class Room {
 public:
-	bool Entered;
-	Room();
 	void MakeRoom(Vector2 Position, Color Normal, Color Hover, Color Click , const char *RoomName, State NewState);
+	void Bathroom();
+	void OutSideRoom();
 };
 extern Room room;
