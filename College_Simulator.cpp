@@ -6,7 +6,7 @@
 #include <raylib.h>
 #include <raymath.h>
 
-//-------- Game Libraries ---------//
+// -------- Game Libraries --------- //
 #include "Common.h"
 #include "UI.h"
 #include "Assets.h"
@@ -14,14 +14,14 @@
 #include "Player.h"
 
 
-//========== Function Declaration ==========
+// ========== Function Declaration ==========
 void Credits_Function();
 void Return();
 
-//========== Main Function ==========
 
+// ========== Main Function ==========
 int main() {
-	//Initialize game elements like screen window and FPS
+	// Initialize game elements like screen window and FPS
 	InitWindow(Screen_Width, Screen_Height, "College Simulator");                          
 	SetTargetFPS(60);
 	SetExitKey(KEY_NULL);  //Disabled default Exit key [Esc]
@@ -30,20 +30,30 @@ int main() {
 	LoadFonts();
 	LoadTextures();
 
-	//========== MAIN GAME LOOP ==========
+
+	// ========== Player Follow Camera ==========
+	Camera2D cam = { 0 };
+	cam.target = { player.Position.x , player.Position.y };
+	cam.offset = { 510 , 450 };
+	cam.zoom = 1.0f;
+	cam.rotation = 0;
+
+
+	// ========== MAIN GAME LOOP ==========
 	while (!WindowShouldClose()) {           
-		MousePosition = GetMousePosition();     
+		MousePosition = GetMousePosition();    
+		cam.target = { player.Position.x , player.Position.y };
 		
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
 
-		//-------------------------------------In Main Menu of the Game----------------------------------//
+		// -------------------------------------In Main Menu of the Game----------------------------------//
 		if (CurrentState == MENU) {
 			DrawTextureEx(Background_Menu, { 0,0 }, 0, 0.286, WHITE);
 			MakeTitle("College Simulator");      //Title Function from UI.h
 
-			//========== Buttons in the Main Menu ==========
-			MakeButton({ 400 , 300 , 250 , 50 }, GREEN, GRAY, RED, "START", CHOOSENAME , Pixel , 32);
+			// ========== Buttons in the Main Menu ==========
+			MakeButton({ 400 , 300 , 250 , 50 }, GREEN, GRAY, RED, "START", HOSTELROOM, Pixel , 32);        // TEMPORARY for testing
 			MakeButton({ 400 , 400 , 250 , 50 }, YELLOW, GRAY, GOLD, "CREDITS", CREDITS, Pixel, 32);
 			MakeButton({ 400 , 500 , 250 , 50 }, GRAY, LIGHTGRAY, DARKGRAY, "SETTING", SETTING, Pixel, 32);
 			MakeButton({ 400 , 600 , 250 , 50 }, RED, GRAY, DARKGRAY, "EXIT", EXIT, Pixel, 32);
@@ -51,28 +61,28 @@ int main() {
 			Return();
 		}
 
-		//========== State: Choose Player Name ==========
+		// ========== State: Choose Player Name ==========
 		else if (CurrentState == CHOOSENAME) {
 			DrawTextureEx(Background_Menu, { 0,0 }, 0, 0.286, WHITE);
 			ChooseName();
 			Return();
 		}
 
-		//========== State: Choose Gender ==========
+		// ========== State: Choose Gender ==========
 		else if (CurrentState == CHOOSEGENDER) {
 			DrawTextureEx(Background_Menu, { 0,0 }, 0, 0.286, WHITE);
 			ChooseGender();
 			Return();
 		}
 
-		//========== State: Choose Subject[Language] ==========
+		// ========== State: Choose Subject[Language] ==========
 		else if (CurrentState == CHOOSELANGUAGE) {
 			DrawTextureEx(Background_Menu, { 0,0 }, 0, 0.286, WHITE);
 			ChooseLanguage();
 			Return();
 		}
 
-		//========== State: Hostel Room ==========
+		// ========== State: Hostel Room ==========
 		else if (CurrentState == HOSTELROOM) {
 			Bar_Make();
 			room.MakeRoom({500 , 500} , GRAY , BLACK , RED , "BATHROOM" , BATHROOM);
@@ -80,18 +90,25 @@ int main() {
 			room.MakeRoom({ 900 , 650 }, BLACK, LIGHTGRAY, MAROON , "PHONE" , PHONE);
 		}
 
-		//========== State: Hostel Bathroom ==========
+		// ========== State: Hostel Bathroom ==========
 		else if (CurrentState == BATHROOM) {
 			room.Bathroom();
 		}
 
-		//-------------------- CREDITS --------------------
+		// ========== State: Outside HostelRoom ==========
+		else if (CurrentState == OUTSIDEROOM) {
+			BeginMode2D(cam);
+			room.OutSideRoom();
+			EndMode2D();
+		}
+
+		// -------------------- CREDITS --------------------
 		else if (CurrentState == CREDITS) {
 			Credits_Function();
 			Return();
 		}
 
-		//-------------------- EXIT --------------------
+		// -------------------- EXIT --------------------
 		else if (CurrentState == EXIT) {
 			break;
 		}
@@ -108,8 +125,7 @@ int main() {
 	CloseWindow();
 	return 0;
 }
-
-//=========================================================================================================\\
+//=========================================
 
 //========== Credits Function ==========
 void Credits_Function() {

@@ -42,6 +42,8 @@ public:
 	float LoveMeter;        
 	float SleepMeter;
 
+	Vector2 Position;
+
 	Player();
 
 	void PlayerPhone();
@@ -76,5 +78,3 @@ struct BarMake {
 	Rectangle Bar;
 };
 extern BarMake barmake[50];
-
-

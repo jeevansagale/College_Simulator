@@ -12,23 +12,25 @@ bool Clicked[5] = { true , true , true , true , true };
 
 // -------------------- PLAYER CLASS DECLARATION --------------------
 Player::Player(){
-	Max_Attendance = 100;               //Max attendance
-    Max_Stress = 100;                   //Max Stress
-	Max_Reputation = 100;               //Max Reputation
-	Max_ToiletMeter = 100;              //Max Toilet progress
-	Max_LoveMeter = 100;                //Max Lover progress
-	Max_SleepMeter = 100;               //Max Sleep progress [Need to sleep]
+	Max_Attendance = 100;               // Max attendance
+    Max_Stress = 100;                   // Max Stress
+	Max_Reputation = 100;               // Max Reputation
+	Max_ToiletMeter = 100;              // Max Toilet progress
+	Max_LoveMeter = 100;                // Max Lover progress
+	Max_SleepMeter = 100;               // Max Sleep progress [Need to sleep]
 
-	Gender = "MALE";                    //Default Gender
-	Name = "PRIMO";                     //Default Name
-	Subject = "ENGLISH";                //Default Sibject
+	Gender = "MALE";                    // Default Gender
+	Name = "PRIMO";                     // Default Name
+	Subject = "ENGLISH";                // Default Sibject
 
-    Attendance = 100.0f;                //initial 100 attendance
-	Stress = 0.0f;                      //Initial 0 stress
-	Reputation = 10;                    //Initial 10 rep
-	ToiletMeter = 0.0f;                 //Initial 0 toilet progress
-	LoveMeter = 0.0f;                   //Initial 0 love progress
-	SleepMeter = 0.0f;                  //Initial 0 i.e. No sleep needed
+    Attendance = 100.0f;                // initial 100 attendance
+	Stress = 0.0f;                      // Initial 0 stress
+	Reputation = 10;                    // Initial 10 rep
+	ToiletMeter = 0.0f;                 // Initial 0 toilet progress
+	LoveMeter = 0.0f;                   // Initial 0 love progress
+	SleepMeter = 0.0f;                  // Initial 0 i.e. No sleep needed
+
+	Position = { 350 , 600 };           // Player Posiition
 };
 
 
@@ -185,3 +187,4 @@ void Player::Love_Function() {
 void Player::Sleep_Function() {
 
 }
+
