@@ -14,11 +14,21 @@
 #include "UI.h"
 #include "Assets.h"
 
+#define WallSize 14
+#define DoorSize 25
+
+// -------------------- TIME FUNCTION --------------------
+// In game time for EVERYTHING in Game
+// -------------------------------------------------------
+extern float TIME;
+void TimeFunction();
+
 
 // -------------------- ROOM FUNCTION --------------------
 class Room {
 public:
 	void MakeRoom(Vector2 Position, Color Normal, Color Hover, Color Click , const char *RoomName, State NewState);
+	void MakeRoom_E(Vector2 Position, Color Normal, Color Click,  const char* RoomName, State NewState);
 	void Bathroom();
 	void OutSideRoom();
 };
@@ -35,4 +45,8 @@ void MakeBathroomGame(Color B_Color, Color B_Hit, Color M_Color, Color M_Hit, Co
 
 // -------------------- OUTSIDE THE ROOM --------------------
 // Make Map and Navigation
+
+extern Rectangle Wall[WallSize];
+extern Rectangle Door[DoorSize];
+
 void MakeMap_OutsideRoom();

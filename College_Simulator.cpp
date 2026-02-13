@@ -14,11 +14,6 @@
 #include "Player.h"
 
 
-// ========== Function Declaration ==========
-void Credits_Function();
-void Return();
-
-
 // ========== Main Function ==========
 int main() {
 	// Initialize game elements like screen window and FPS
@@ -85,6 +80,8 @@ int main() {
 		// ========== State: Hostel Room ==========
 		else if (CurrentState == HOSTELROOM) {
 			Bar_Make();
+			TimeFunction();
+
 			room.MakeRoom({500 , 500} , GRAY , BLACK , RED , "BATHROOM" , BATHROOM);
 			room.MakeRoom({ 700 , 300 }, GRAY, BLACK, GREEN, "OUTSIDE", OUTSIDEROOM);
 			room.MakeRoom({ 900 , 650 }, BLACK, LIGHTGRAY, MAROON , "PHONE" , PHONE);
@@ -92,6 +89,7 @@ int main() {
 
 		// ========== State: Hostel Bathroom ==========
 		else if (CurrentState == BATHROOM) {
+			TimeFunction();
 			room.Bathroom();
 		}
 
@@ -100,6 +98,9 @@ int main() {
 			BeginMode2D(cam);
 			room.OutSideRoom();
 			EndMode2D();
+
+			TimeFunction();
+			DrawText(TextFormat("X: %.0f Y: %.0f", player.Position.x, player.Position.y), 10, 10, 20, BLACK);
 		}
 
 		// -------------------- CREDITS --------------------
@@ -114,7 +115,6 @@ int main() {
 		}
 
 		BlackScreen_Update(BLACK);       //Updates the Blackscreen between states
-
 		EndDrawing();
 	}
 
@@ -126,41 +126,3 @@ int main() {
 	return 0;
 }
 //=========================================
-
-//========== Credits Function ==========
-void Credits_Function() {
-	//---------- Main Developer ---------------//
-	DrawTextEx(Thick_Pixel, "Made by : ", { 30 , 30 }, 64, 2, BLACK);
-	DrawTextEx(Thick_Pixel, "Jeevan Sagale ", { 50 , 100 }, 64, 2, BLACK);
-
-	//---------- Idea Given by ----------------//
-	DrawTextEx(Thick_Pixel, "Idea : ", { 30 , 200 }, 64, 2, BLACK);
-	DrawTextEx(Thick_Pixel, "Pranav ", { 50 , 300 }, 64, 2, BLACK);
-
-	//---------- Font found on ----------------//
-	DrawTextEx(Pixel, "Font ", { 30 , 400 }, 32, 2, BLACK);
-	DrawTextEx(Pixel, "From Google Fonts ", { 50 , 450 }, 32, 2, BLACK);
-
-	//---------- Image found at --------------//
-	DrawTextEx(Pixel, "Images ", { 30 , 500 }, 32, 2, BLACK);
-	DrawTextEx(Pixel, "From Google", { 50 , 550 }, 32, 2, BLACK);
-
-	Return();
-}
-
-
-//Resets Some Elements when Esc is pressed
-void Return() {
-	if (IsKeyPressed(KEY_ESCAPE)) {
-		CurrentState = MENU;
-		
-		title.DirX = -500;         //Reset Titles position
-		title.Alpha = 0;           //Resets Alpha[Transparency] of Title
-		Clicked2 = true;           //Resets Name Choosing/Confirming Button
-
-		for (int i = 0; i < 5; i++) {
-			Clicked[i] = true;     //Resets Gender Choosing/Confirming Button
-			Clicked1[i] = true;    //Resets Subject[Language] Button
-		}
-	}
-}

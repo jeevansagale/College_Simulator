@@ -7,11 +7,13 @@ Title title = {
 	100            // Y - cord
 };
 
+
 // ---------- BLACKSCREEN ----------
 BlackScreen blackscreen = {
 	0 ,            // Alpha
 	0              // Direction [Initial zero for not moving]
 };
+
 
 // ---------- Button ----------
 void MakeButton(Rectangle Btn,
@@ -109,3 +111,42 @@ void BlackScreen_Update(Color color) {
 		DrawRectangle(0, 0, Screen_Width, Screen_Height, Fade(color, BS.Alpha));
 	}
 } 
+
+
+//========== Credits Function ==========
+void Credits_Function() {
+	//---------- Main Developer ---------------//
+	DrawTextEx(Thick_Pixel, "Made by : ", { 30 , 30 }, 64, 2, BLACK);
+	DrawTextEx(Thick_Pixel, "Jeevan Sagale ", { 50 , 100 }, 64, 2, BLACK);
+
+	//---------- Idea Given by ----------------//
+	DrawTextEx(Thick_Pixel, "Idea : ", { 30 , 200 }, 64, 2, BLACK);
+	DrawTextEx(Thick_Pixel, "Pranav ", { 50 , 300 }, 64, 2, BLACK);
+
+	//---------- Font found on ----------------//
+	DrawTextEx(Pixel, "Font ", { 30 , 400 }, 32, 2, BLACK);
+	DrawTextEx(Pixel, "From Google Fonts ", { 50 , 450 }, 32, 2, BLACK);
+
+	//---------- Image found at --------------//
+	DrawTextEx(Pixel, "Images ", { 30 , 500 }, 32, 2, BLACK);
+	DrawTextEx(Pixel, "From Google", { 50 , 550 }, 32, 2, BLACK);
+
+	Return();
+}
+
+
+//Resets Some Elements when Esc is pressed
+void Return() {
+	if (IsKeyPressed(KEY_ESCAPE)) {
+		CurrentState = MENU;
+
+		title.DirX = -500;         //Reset Titles position
+		title.Alpha = 0;           //Resets Alpha[Transparency] of Title
+		Clicked2 = true;           //Resets Name Choosing/Confirming Button
+
+		for (int i = 0; i < 5; i++) {
+			Clicked[i] = true;     //Resets Gender Choosing/Confirming Button
+			Clicked1[i] = true;    //Resets Subject[Language] Button
+		}
+	}
+}

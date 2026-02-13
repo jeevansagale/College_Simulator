@@ -16,20 +16,25 @@
 
 // ---------- GAME STATES ----------
 enum State {
+	// ---------- MENU ----------
 	MENU ,  
 	CREDITS , 
 	SETTING ,
 	EXIT ,
 	
+	// ---------- INPUT INFO ----------
 	CHOOSENAME , 
 	CHOOSEGENDER , 
 	CHOOSELANGUAGE , 
 	
+	// ---------- MAINGAME ----------
 	HOSTELROOM , 
 	BATHROOM ,
 	PHONE , 
-	OUTSIDEROOM 
-
+	OUTSIDEROOM ,
+	CAMPUS , 
+	CLASS , 
+	CANTEEN 
 };
 
 extern State CurrentState;   // CURRENTSTATE of the game

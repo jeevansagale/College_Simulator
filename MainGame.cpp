@@ -1,5 +1,23 @@
 #include "MainGame.h"
 
+
+// -------------------- TIME FUNCTION --------------------
+float TIME = 480.0f;
+void TimeFunction() {
+	TIME += GetFrameTime();
+
+	int Hour = (int)(TIME / 60) % 24;
+	int Min = (int)TIME % 60;
+	int Sec = (int)(TIME * 60) % 60;
+	
+	if (TIME >= 1440) {
+		TIME = 0;
+	}
+
+	DrawTextEx(Thick_Pixel, TextFormat("Time : %02d:%02d ", Hour, Min), { 450 , 10 }, 32, 2, BLACK);
+}
+
+
 // -------------------- ROOM FUNCTIONS --------------------
 Room room;
 
@@ -19,6 +37,24 @@ void Room::MakeRoom(Vector2 Position , Color Normal , Color Hover , Color Click,
 	if (Check && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) { PreviousState = NewState; StartBlackScreen(NewState); }
 
 	DrawTextEx(Pixel, RoomName, { TxtRec.x , TxtRec.y }, 32, 2, Normal);
+}
+
+void Room::MakeRoom_E(Vector2 Position, Color Normal, Color Click,  const char* RoomName, State NewState) {
+	State PreviousState;
+	Vector2 TxtSize = MeasureTextEx(Pixel, RoomName, 16, 2);
+	Rectangle TxtRec = {
+		Position.x - (TxtSize.x / 2) , Position.y - (TxtSize.y / 2) ,
+		TxtSize.x , TxtSize.y
+	};
+
+	float PlayerPosition = Vector2Distance(Position, player.Position);
+
+	if (IsKeyDown(KEY_E)) { Normal = Click; }
+
+	if (PlayerPosition <= 100.0f) {
+		if (IsKeyReleased(KEY_E)) { PreviousState = NewState; StartBlackScreen(NewState); }
+		DrawTextEx(Pixel, RoomName, { TxtRec.x , TxtRec.y }, 32, 2, Normal);
+	}
 }
 
 
@@ -81,6 +117,64 @@ void Room::Bathroom() {
 // --------------------
 // Navigate to go either : Classroom or Bunk or canteen
 
+// ---------- WALL ----------
+Rectangle Wall[WallSize] = {
+	{300 , 10 , 40 , 1000} ,       // Lower Left wall
+	{600 , 10 , 40 , 1000} ,       // Lower Right wall
+	{300 , -1500 , 40 , 1100} ,    // Upper Left wall
+	{600 , -1500 , 40 , 1600} ,    // Upper Right wall
+
+	{600 , 1000 , 500 , 40} ,      // Lower Wall Right wall
+	{-160 , 1000 , 500 , 40} ,     // Lower Wall Left wall
+	{150 , 10 , 150 , 40} ,        // Lift wall
+	{150 , -440 , 150 , 40} ,      // Lift wall
+	{150 , -440 , 40 , 450} ,      // Wall connecting lift walls
+	{150 , -220 , 190 , 40} ,      // Middle wall between two lifts
+
+	{200 , -1500 , 100 , 40 } ,    // Upper Corrider 
+	{200 , -1740 , 40 , 250 } ,    // -------------
+	{200 , -1740 , 440 , 40 } ,    // -------------
+	{600 , -1740 , 40 , 250}
+
+};
+
+
+Rectangle Door[DoorSize] = {
+	// ---------- Lower Doors ----------
+	{310 , 100 , 70 , 100} ,     // 0
+	{310 , 300 , 70 , 100} ,     // 1
+	{310 , 500 , 70 , 100} ,     // 2 , Player Room
+	{310 , 700 , 70 , 100} ,     // 3
+	{310 , 900 , 70 , 100} ,     // 4
+	{560 , 100 , 70 , 100} ,     // 5
+	{560 , 300 , 70 , 100} ,     // 6
+	{560 , 500 , 70 , 100} ,     // 7
+	{560 , 700 , 70 , 100} ,     // 8
+	{560 , 900 , 70 , 100} ,     // 9
+
+	// ---------- Upper Doors ----------
+	{310 , -1400 , 70 , 100} ,   // 10
+	{310 , -1200 , 70 , 100} ,   // 11
+	{310 , -1000 , 70 , 100} ,   // 12
+	{310 , -800 , 70 , 100} ,    // 13
+	{310 , -600 , 70 , 100} ,    // 14
+	{560 , -1400 , 70 , 100} ,   // 15
+	{560 , -1200 , 70 , 100} ,   // 16
+	{560 , -1000 , 70 , 100} ,   // 17
+	{560 , -800 , 70 , 100} ,    // 18
+	{560 , -600 , 70 , 100} ,    // 19
+
+	// ---------- Lift Doors ----------
+	{200 , -390 , 100 , 160} ,   // 20 , Main Lift 
+	{200 , -170 , 100 , 170} ,   // 21 , Main Lift
+	{250 , -1690 , 100 , 180} ,  // 22 , Upper Lift
+
+	// ---------- Stairs ----------
+	{550 , -390 , 150 , 190} ,   // 23
+	{550 , -170 , 150 , 190}     // 24
+};
+
+
 void MakeMap_OutsideRoom() {
 	ClearBackground(LIGHTGRAY);
 	float dx = 0;
@@ -88,34 +182,34 @@ void MakeMap_OutsideRoom() {
 	bool HitX = false;
 	bool HitY = false;
 
-	// ---------- PLAYER MOVEMENT ----------
-	if (IsKeyDown(KEY_W)) { dy -= GetFrameTime() * 200; }
-	if (IsKeyDown(KEY_S)) { dy += GetFrameTime() * 200; }
-	if (IsKeyDown(KEY_A)) { dx -= GetFrameTime() * 200; }
-	if (IsKeyDown(KEY_D)) { dx += GetFrameTime() * 200; }
+	// ---------- PLAYER MOVEMENT ---------- [TEMP SPEED INCREASE , REDO AFTER TRIALS: 200]
+	if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) { dy -= GetFrameTime() * 700; }
+	if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)) { dy += GetFrameTime() * 700; }
+	if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) { dx -= GetFrameTime() * 700; }
+	if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) { dx += GetFrameTime() * 700; }
 
-	// ---------- WALL ----------
-	Rectangle Wall[2] = { {300 , 10 , 40 , 900} ,       // Left wall
-						  {600 , 10 , 40 , 900}         // Right wall
-	};
-	Rectangle Door[1] = {
-		{300 , 100 , 70 , 100}
 
-	};
 	// ---------- DRAW WALL ----------
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < WallSize; i++) {
 		DrawRectangleRec(Wall[i], RED);
 	}
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < DoorSize; i++) {
 		DrawRectangleRec(Door[i], BLACK);
 	}
 
 	// ---------- X - AXIS MOVEMENT ----------
 	player.Position.x += dx;
 	Rectangle PlayerX = { player.Position.x, player.Position.y, 50, 50 };
-	for (int i = 0; i < 2; i++) {
-		for (int j = 0; j < 1; j++) {
-			if (CheckCollisionRecs(PlayerX, Wall[i]) || CheckCollisionRecs(PlayerX, Door[j])) {
+	for (int i = 0; i < WallSize; i++) {
+		if (CheckCollisionRecs(PlayerX, Wall[i])) {
+			HitX = true;
+			break;
+		}
+	}
+
+	if (!HitX) {
+		for (int j = 0; j < DoorSize; j++) {
+			if (CheckCollisionRecs(PlayerX, Door[j])) {
 				HitX = true;
 				break;
 			}
@@ -129,9 +223,16 @@ void MakeMap_OutsideRoom() {
 	// ---------- Y - AXIS MOVEMENT ----------
 	player.Position.y += dy;
 	Rectangle PlayerY = { player.Position.x, player.Position.y, 50, 50 };
-	for (int i = 0; i < 2; i++) {
-		for (int j = 0; j < 1; j++) {
-			if (CheckCollisionRecs(PlayerY, Wall[i]) || CheckCollisionRecs(PlayerY, Door[j])) {
+	for (int i = 0; i < WallSize; i++) {
+		if (CheckCollisionRecs(PlayerY, Wall[i])) {
+			HitY = true;
+			break;
+		}
+	}
+
+	if (!HitY) {
+		for (int j = 0; j < DoorSize; j++) {
+			if (CheckCollisionRecs(PlayerY, Door[j])) {
 				HitY = true;
 				break;
 			}
@@ -146,6 +247,12 @@ void MakeMap_OutsideRoom() {
 	DrawRectangle(player.Position.x, player.Position.y, 50, 50, BLACK);
 }
 
+
 void Room::OutSideRoom() {
 	MakeMap_OutsideRoom();
+	room.MakeRoom_E({ Door[2].x , Door[2].y + 30 }, BLUE, PINK, "Enter Room", HOSTELROOM);
+	room.MakeRoom_E({ Door[20].x + 25 , Door[20].y + 65 }, BLUE, PINK, "Enter Lift", CAMPUS);
+	room.MakeRoom_E({ Door[21].x + 25 , Door[21].y + 65 }, BLUE, PINK, "Enter Lift", CAMPUS);
+	room.MakeRoom_E({ Door[23].x , Door[23].y + 95 }, BLUE, PINK, "Stairs", CAMPUS);
+	room.MakeRoom_E({ Door[24].x , Door[24].y + 95 }, BLUE, PINK, "Stairs", CAMPUS);
 }

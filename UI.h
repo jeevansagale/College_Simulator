@@ -6,6 +6,8 @@
 
 #include "Common.h"
 #include "Assets.h"
+#include "Player.h"
+#include "MainGame.h"
 #include <raylib.h>
 #include <raymath.h>
 
@@ -46,3 +48,8 @@ void MakeTitle(const char* Title);
 // Blackscreen update and start functions
 void StartBlackScreen(State Next);
 void BlackScreen_Update(Color color);
+
+
+// ========== Function Declaration ==========
+void Credits_Function();
+void Return();

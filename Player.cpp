@@ -30,7 +30,7 @@ Player::Player(){
 	LoveMeter = 0.0f;                   // Initial 0 love progress
 	SleepMeter = 0.0f;                  // Initial 0 i.e. No sleep needed
 
-	Position = { 350 , 600 };           // Player Posiition
+	Position = { 400 , 530 };           // Player Posiition
 };
 
 
