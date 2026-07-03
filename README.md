@@ -124,12 +124,8 @@ Contributions, ideas, and feedback are always welcome.
 
 This project is licensed under the MIT License.
 
-## Authors
+## Author
 
 **Jeevan Sagale**
 
 GitHub: https://github.com/jeevansagale
-
-**Vedant Hire**
-
-GitHub: https://github.com/HireVedant
